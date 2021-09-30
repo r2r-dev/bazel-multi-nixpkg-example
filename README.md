@@ -1,0 +1,1 @@
+# bazel-multi-nixpkg-example
