@@ -1,0 +1,15 @@
+package_visibility = ["//visibility:public"]
+
+config_setting(
+    name = "linux_x86_64",
+    flag_values = {
+        "//flag:platform": "linux_x86_64",
+    },
+)
+
+config_setting(
+    name = "linux_aarch64",
+    flag_values = {
+        "//flag:platform": "linux_aarch64",
+    },
+)

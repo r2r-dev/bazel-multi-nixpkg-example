@@ -1,0 +1,12 @@
+load("@bazel_skylib//rules:common_settings.bzl", "string_flag")
+
+string_flag(
+    name = "platform",
+    values = [
+        "linux_x86_64",
+        "linux_aarch64",
+        "invalid",
+    ],
+    build_setting_default = "invalid",
+    visibility = ["//visibility:public"],
+)
