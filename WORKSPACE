@@ -126,6 +126,7 @@ cc_library(name = "gtest", srcs = [ "lib/libgmock.so", "lib/libgtest.so" ], hdrs
 
 load("//rules:defs.bzl", "nixpkgs_bundle")
 
+# combine already existing packages
 nixpkgs_bundle(
     name = "gtest",
     config_package_map = {
@@ -137,3 +138,45 @@ nixpkgs_bundle(
         "all",
     ],
 )
+
+#  # generate package entries based on attribute paths from the same nix_file
+#  # and bundle them together under common name
+#  nixpkgs_bundle(
+#      name = "gtest",
+#      nix_file = "//nix:bazel.nix",
+#      nix_file_deps = [
+#          "//:flake.lock",
+#          "//nix:bazel.nix",
+#          "//nix:nixpkgs.nix",
+#      ],
+#      repositories = NIX_REPOS,
+#      attribute_paths = {
+#          "@multi-pkg-example//config:linux_aarch64": "gtest-arm",
+#          "@multi-pkg-example//config:linux_x86_64": "gtest-x86",
+#      },
+#      bzl_targets = [
+#          "gtest",
+#          "all",
+#      ],
+#  )
+#
+#  # generate package entries from the same attribute path for different nix platforms
+#  # and bundle them together under common name
+#  nixpkgs_bundle(
+#      name = "gtest",
+#      nix_file = "//nix:bazel.nix",
+#      nix_file_deps = [
+#          "//:flake.lock",
+#          "//nix:bazel.nix",
+#          "//nix:nixpkgs.nix",
+#      ],
+#      repositories = NIX_REPOS,
+#      nix_platforms = {
+#          "@multi-pkg-example//config:linux_aarch64": "aarch64-unknown-linux-gnu",
+#          "@multi-pkg-example//config:linux_x86_64": "x86_64-pc-linux-gnu",
+#      },
+#      bzl_targets = [
+#          "gtest",
+#          "all",
+#      ],
+#  )
