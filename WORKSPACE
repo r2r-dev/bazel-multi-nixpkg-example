@@ -94,7 +94,7 @@ nixpkgs_cc_configure(
 
 nixpkgs_package(
     name = "gtest_linux_aarch64",
-    attribute_path = "gtest",
+    attribute_path = "gtest-aarch64-linux",
     build_file_content = """
 load("@rules_cc//cc:defs.bzl", "cc_library")
 cc_library(name = "gtest", srcs = [ "lib/libgmock.so", "lib/libgtest.so" ], hdrs = glob(["include/gmock/**/*.h", "include/gtest/**/*.h"]), includes = ["include"], visibility=["//visibility:public"])
@@ -110,7 +110,7 @@ cc_library(name = "gtest", srcs = [ "lib/libgmock.so", "lib/libgtest.so" ], hdrs
 
 nixpkgs_package(
     name = "gtest_linux_x86_64",
-    attribute_path = "gtest",
+    attribute_path = "gtest-x86_64-linux",
     build_file_content = """
 load("@rules_cc//cc:defs.bzl", "cc_library")
 cc_library(name = "gtest", srcs = [ "lib/libgmock.so", "lib/libgtest.so" ], hdrs = glob(["include/gmock/**/*.h", "include/gtest/**/*.h"]), includes = ["include"], visibility=["//visibility:public"])
