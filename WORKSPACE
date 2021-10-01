@@ -125,11 +125,15 @@ cc_library(name = "gtest", srcs = [ "lib/libgmock.so", "lib/libgtest.so" ], hdrs
 )
 
 load("//rules:defs.bzl", "nixpkgs_bundle")
+
 nixpkgs_bundle(
     name = "gtest",
-    target = "gtest",
     config_package_map = {
-        "@multi-pkg-example//config:linux_x86_64": "@gtest_linux_x86_64//:gtest",
-        "@multi-pkg-example//config:linux_aarch64": "@gtest_linux_aarch64//:gtest",
+        "@multi-pkg-example//config:linux_aarch64": "@gtest_linux_aarch64",
+        "@multi-pkg-example//config:linux_x86_64": "@gtest_linux_x86_64",
     },
+    targets = [
+        "gtest",
+        "all",
+    ],
 )
