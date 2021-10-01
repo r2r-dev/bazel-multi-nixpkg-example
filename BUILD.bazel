@@ -1,0 +1,10 @@
+load("//rules:defs.bzl", "rules")
+
+rules.derive(
+    name = "split_gtest",
+    targets = ["@gtest//:gtest"],
+    platforms = [
+        "linux_x86_64",  # build @gtest//:gtest --//flag:platform=linux_x86_64
+        "linux_aarch64",  # build @gtest//:gtest --//flag:platform=linux_aarch64
+    ],
+)
