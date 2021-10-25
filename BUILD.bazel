@@ -1,10 +1,10 @@
 load("//rules:defs.bzl", "rules")
 
 rules.derive(
-    name = "split_gtest",
-    targets = ["@gtest//:gtest"],
-    platforms = [
-        "linux_x86_64",  # build @gtest//:gtest --//flag:platform=linux_x86_64
-        "linux_aarch64",  # build @gtest//:gtest --//flag:platform=linux_aarch64
+    name = "split_ssl",
+    targets = ["//example:ssl"],
+    systems = [
+        "x86_64-linux",   # build @gtest//:gtest --//flag:system=x86_64-linux
+        "aarch64-linux",  # build @gtest//:gtest --//flag:system=aarch64-linux
     ],
 )

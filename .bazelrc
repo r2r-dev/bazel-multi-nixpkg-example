@@ -1,3 +1,5 @@
 build --incompatible_enable_cc_toolchain_resolution
 build --host_platform=@io_tweag_rules_nixpkgs//nixpkgs/platforms:host
 build --platforms @io_tweag_rules_nixpkgs//nixpkgs/platforms:host
+
+build --flag_alias=system=//flag:system

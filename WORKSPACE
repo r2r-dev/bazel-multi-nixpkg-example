@@ -36,6 +36,8 @@ http_archive(
     sha256 = "6bedf80d6cb82d3f1876e27f2ff9a2cc814d65f924deba14b49698bb1fb2a7f7",
     strip_prefix = "rules_nixpkgs-%s" % RULES_TWEAG_COMMIT,
     urls = ["https://github.com/tweag/rules_nixpkgs/archive/%s.tar.gz" % RULES_TWEAG_COMMIT],
+    patches = [ "@multi-pkg-example//:01.multi_system_packages.patch" ],
+    patch_args = ["-p1"],
 )
 
 load(
@@ -63,6 +65,11 @@ nixpkgs_local_repository(
 
 NIX_REPOS = {
     "nixpkgs": "@host_nixpkgs",
+}
+
+NIX_SYSTEMS = {
+    "aarch64-linux": "@multi-pkg-example//config:aarch64-linux",
+    "x86_64-linux": "@multi-pkg-example//config:x86_64-linux",
 }
 
 nixpkgs_cc_configure(
@@ -93,90 +100,26 @@ nixpkgs_cc_configure(
 )
 
 nixpkgs_package(
-    name = "gtest_linux_aarch64",
-    attribute_path = "gtest-aarch64-linux",
+    name = "openssl",
+    attribute_path = "openssl",
+    nix_file = "//nix:bazel.nix",
     build_file_content = """
 load("@rules_cc//cc:defs.bzl", "cc_library")
-cc_library(name = "gtest", srcs = [ "lib/libgmock.so", "lib/libgtest.so" ], hdrs = glob(["include/gmock/**/*.h", "include/gtest/**/*.h"]), includes = ["include"], visibility=["//visibility:public"])
+cc_library(
+    name = "openssl",
+    srcs = glob(["lib/*"]),
+    hdrs = glob(["include/openssl/**/*.h"]),
+    includes = ["include"],
+    visibility=["//visibility:public"]
+)
     """,
-    nix_file = "//nix:bazel.nix",
     nix_file_deps = [
         "//:flake.lock",
         "//nix:bazel.nix",
         "//nix:nixpkgs.nix",
     ],
     repositories = NIX_REPOS,
+    systems = NIX_SYSTEMS,
+    targets = ["openssl"],
 )
 
-nixpkgs_package(
-    name = "gtest_linux_x86_64",
-    attribute_path = "gtest-x86_64-linux",
-    build_file_content = """
-load("@rules_cc//cc:defs.bzl", "cc_library")
-cc_library(name = "gtest", srcs = [ "lib/libgmock.so", "lib/libgtest.so" ], hdrs = glob(["include/gmock/**/*.h", "include/gtest/**/*.h"]), includes = ["include"], visibility=["//visibility:public"])
-    """,
-    nix_file = "//nix:bazel.nix",
-    nix_file_deps = [
-        "//:flake.lock",
-        "//nix:bazel.nix",
-        "//nix:nixpkgs.nix",
-    ],
-    repositories = NIX_REPOS,
-)
-
-load("//rules:defs.bzl", "nixpkgs_bundle")
-
-# combine already existing packages
-nixpkgs_bundle(
-    name = "gtest",
-    config_package_map = {
-        "@multi-pkg-example//config:linux_aarch64": "@gtest_linux_aarch64",
-        "@multi-pkg-example//config:linux_x86_64": "@gtest_linux_x86_64",
-    },
-    targets = [
-        "gtest",
-        "all",
-    ],
-)
-
-#  # generate package entries based on attribute paths from the same nix_file
-#  # and bundle them together under common name
-#  nixpkgs_bundle(
-#      name = "gtest",
-#      nix_file = "//nix:bazel.nix",
-#      nix_file_deps = [
-#          "//:flake.lock",
-#          "//nix:bazel.nix",
-#          "//nix:nixpkgs.nix",
-#      ],
-#      repositories = NIX_REPOS,
-#      attribute_paths = {
-#          "@multi-pkg-example//config:linux_aarch64": "gtest-arm",
-#          "@multi-pkg-example//config:linux_x86_64": "gtest-x86",
-#      },
-#      bzl_targets = [
-#          "gtest",
-#          "all",
-#      ],
-#  )
-#
-#  # generate package entries from the same attribute path for different nix platforms
-#  # and bundle them together under common name
-#  nixpkgs_bundle(
-#      name = "gtest",
-#      nix_file = "//nix:bazel.nix",
-#      nix_file_deps = [
-#          "//:flake.lock",
-#          "//nix:bazel.nix",
-#          "//nix:nixpkgs.nix",
-#      ],
-#      repositories = NIX_REPOS,
-#      nix_platforms = {
-#          "@multi-pkg-example//config:linux_aarch64": "aarch64-unknown-linux-gnu",
-#          "@multi-pkg-example//config:linux_x86_64": "x86_64-pc-linux-gnu",
-#      },
-#      bzl_targets = [
-#          "gtest",
-#          "all",
-#      ],
-#  )
