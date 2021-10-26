@@ -1,5 +1,4 @@
-{ 
-  crossSystem ? null
+{ crossSystem ? null
 , system ? builtins.currentSystem
 , pkgs ? import ./nixpkgs.nix { inherit crossSystem system; }
 }:

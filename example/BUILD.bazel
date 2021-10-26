@@ -1,8 +1,8 @@
 load("@rules_cc//cc:defs.bzl", "cc_binary")
+
 cc_binary(
     name = "ssl",
-    srcs = [ "ssl.cc" ],
-    deps = [ "@openssl//:openssl" ],
-    visibility=["//visibility:public"],
+    srcs = ["ssl.cc"],
+    visibility = ["//visibility:public"],
+    deps = ["@openssl"],
 )
-

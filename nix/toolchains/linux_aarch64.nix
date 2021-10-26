@@ -28,7 +28,8 @@ let
     done;
     ln -s ${crossGCCUnwrapped}/bin/aarch64-unknown-linux-gnu-cpp $out/bin/cpp
   '';
-in nixpkgs.buildEnv {
+in
+nixpkgs.buildEnv {
   name = "linux_aarch64";
   paths = [ prefixStrippedGCC ];
 }

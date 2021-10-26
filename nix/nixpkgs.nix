@@ -1,5 +1,4 @@
-{ 
-  crossSystem ? null
+{ crossSystem ? null
 , system ? builtins.currentSystem
 , ...
 }:
@@ -19,11 +18,12 @@ let
     overlays = [ ];
   };
 
-  cross_importargs = if crossSystem == null then 
-    importargs
+  cross_importargs =
+    if crossSystem == null then
+      importargs
     else
-    importargs // { inherit crossSystem; };
+      importargs // { inherit crossSystem; };
 
   nixpkgs = import nixpkgs_src cross_importargs;
 in
-  nixpkgs
+nixpkgs
