@@ -1,18 +1,16 @@
 def _transition_impl(settings, attr):
-    if len(attr.platforms_systems) == 0:
+    if len(attr.platforms) == 0:
         return settings
 
     split = dict()
-    for platform, system in attr.platforms_systems.items():
-        split[system] = {
-            "//flag:nix_system": system,
+    for platform in attr.platforms:
+        split[platform] = {
             "//command_line_option:platforms": platform,
         }
     return split
 
 _transitive_options = [
     "//command_line_option:platforms",
-    "//flag:nix_system",
 ]
 
 _base_transition = transition(
@@ -31,7 +29,7 @@ def _impl(ctx):
 _derive = rule(
     implementation = _impl,
     attrs = {
-        "platforms_systems": attr.string_dict(),
+        "platforms": attr.string_list(),
         "targets": attr.label_list(cfg = transitions.rule_transition),
         "_allowlist_function_transition": attr.label(
             default = "@bazel_tools//tools/allowlists/function_transition_allowlist",

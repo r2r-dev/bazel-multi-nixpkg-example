@@ -3,8 +3,8 @@ load("//rules:defs.bzl", "rules")
 rules.derive(
     name = "split_ssl",
     targets = ["//example:ssl"],
-    platforms_systems = {
-        "//platforms:x86_64-linux": "x86_64-linux",  # same as //example:ssl --nix_system=x86_64-linux --platforms=//platforms:x86_64-linux
-        "//platforms:aarch64-linux": "aarch64-linux",  # same as //example:ssl --nix_system=aarch64-linux --platforms=//platforms:aarch64-linux
-    },
+    platforms = [ 
+        "//platforms:x86_64-linux",
+        "//platforms:aarch64-linux",
+    ],
 )
