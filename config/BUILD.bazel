@@ -1,15 +1,15 @@
 package_visibility = ["//visibility:public"]
 
 config_setting(
-    name = "x86_64-pc-linux-gnu",
+    name = "x86_64-linux",
     flag_values = {
-        "//flag:system": "x86_64-pc-linux-gnu",
+        "//flag:nix_system": "x86_64-linux",
     },
 )
 
 config_setting(
-    name = "aarch64-unknown-linux-gnu",
+    name = "aarch64-linux",
     flag_values = {
-        "//flag:system": "aarch64-unknown-linux-gnu",
+        "//flag:nix_system": "aarch64-linux",
     },
 )

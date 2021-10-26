@@ -1,5 +1,5 @@
 { 
-  crossSystem ? { config = "x86_64-unknown-linux-gnu"; }
+  crossSystem ? null
 , system ? builtins.currentSystem
 , ...
 }:
@@ -12,9 +12,18 @@ let
     sha256 =
       (builtins.replaceStrings [ "sha256-" ] [ "" ] nixpkgs_spec.narHash);
   };
-  nixpkgs = import nixpkgs_src {
-    inherit system crossSystem;
+
+  importargs = {
+    inherit system;
     config.allowUnfree = true;
     overlays = [ ];
   };
-in nixpkgs
+
+  cross_importargs = if crossSystem == null then 
+    importargs
+    else
+    importargs // { inherit crossSystem; };
+
+  nixpkgs = import nixpkgs_src cross_importargs;
+in
+  nixpkgs

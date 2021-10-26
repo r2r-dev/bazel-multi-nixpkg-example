@@ -33,11 +33,11 @@ RULES_TWEAG_COMMIT = "a388ab60dea07c3fc182453e89ff1a67c9d3eba6"
 
 http_archive(
     name = "io_tweag_rules_nixpkgs",
+    patch_args = ["-p1"],
+    patches = ["@multi-pkg-example//:01.multi_system_packages.patch"],
     sha256 = "6bedf80d6cb82d3f1876e27f2ff9a2cc814d65f924deba14b49698bb1fb2a7f7",
     strip_prefix = "rules_nixpkgs-%s" % RULES_TWEAG_COMMIT,
     urls = ["https://github.com/tweag/rules_nixpkgs/archive/%s.tar.gz" % RULES_TWEAG_COMMIT],
-    patches = [ "@multi-pkg-example//:01.multi_system_packages.patch" ],
-    patch_args = ["-p1"],
 )
 
 load(
@@ -68,8 +68,20 @@ NIX_REPOS = {
 }
 
 NIX_SYSTEMS = {
-    "aarch64-unknown-linux-gnu": "@multi-pkg-example//config:aarch64-unknown-linux-gnu",
-    "x86_64-pc-linux-gnu": "@multi-pkg-example//config:x86_64-pc-linux-gnu",
+    "aarch64-linux": {
+        "suffix": "-aarch64-linux",
+        "config": "@multi-pkg-example//config:aarch64-linux",
+        "extra_nix_opts": [
+            "--arg",
+            "crossSystem",
+            "{ config = \"aarch64-unknown-linux-gnu\";}",
+        ],
+    },
+    "x86_64-linux": {
+        "suffix": "-x86_64-linux",
+        "config": "@multi-pkg-example//config:x86_64-linux",
+        "extra_nix_opts": [],
+    },
 }
 
 nixpkgs_cc_configure(
@@ -102,7 +114,6 @@ nixpkgs_cc_configure(
 nixpkgs_package(
     name = "openssl",
     attribute_path = "openssl",
-    nix_file = "//nix:bazel.nix",
     build_file_content = """
 load("@rules_cc//cc:defs.bzl", "cc_library")
 cc_library(
@@ -113,6 +124,7 @@ cc_library(
     visibility=["//visibility:public"]
 )
     """,
+    nix_file = "//nix:bazel.nix",
     nix_file_deps = [
         "//:flake.lock",
         "//nix:bazel.nix",
@@ -120,6 +132,7 @@ cc_library(
     ],
     repositories = NIX_REPOS,
     systems = NIX_SYSTEMS,
-    targets = ["openssl"],
+    targets = [
+        "openssl",
+    ],
 )
-
