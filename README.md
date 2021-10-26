@@ -1,5 +1,5 @@
 # bazel-multi-nixpkg-example
-Example of building a Bazel target against multiple execution architectures with support for transitioning on both internal and external packages.
+Example of building a Bazel target against multiple execution architectures with support for transitioning on both internal and external, nix-provided packages.
 
 1. Build `example/ssl` package for `x86_64`
 ```
