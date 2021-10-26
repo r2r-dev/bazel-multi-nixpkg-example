@@ -35,7 +35,7 @@ index 1aa2e54..898a401 100644
 +    if len(systems) > 0:
 +        for key, value in systems.items():
 +            kwargs["name"] = name + "-" + key
-+            kwargs["nixopts"] = kwargs["nixopts"] + ["--argstr", "system", key]
++            kwargs["nixopts"] = kwargs["nixopts"] + ["--arg", "crossSystem", "{ config = \"" + key + "\"; }"]
 +            _nixpkgs_package(**kwargs)
 +
 +        inversed_systems = {value: "@" + name + "-" + key for (key, value) in systems.items()}

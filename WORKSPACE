@@ -68,8 +68,8 @@ NIX_REPOS = {
 }
 
 NIX_SYSTEMS = {
-    "aarch64-linux": "@multi-pkg-example//config:aarch64-linux",
-    "x86_64-linux": "@multi-pkg-example//config:x86_64-linux",
+    "aarch64-unknown-linux-gnu": "@multi-pkg-example//config:aarch64-unknown-linux-gnu",
+    "x86_64-pc-linux-gnu": "@multi-pkg-example//config:x86_64-pc-linux-gnu",
 }
 
 nixpkgs_cc_configure(

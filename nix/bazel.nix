@@ -1,5 +1,7 @@
-{ system ? builtins.currentSystem
-, pkgs ? import ./nixpkgs.nix { inherit system; }
+{ 
+  crossSystem
+, system ? builtins.currentSystem
+, pkgs ? import ./nixpkgs.nix { inherit system crossSystem; }
 }:
 {
   openssl = pkgs.symlinkJoin {

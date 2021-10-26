@@ -4,7 +4,7 @@ rules.derive(
     name = "split_ssl",
     targets = ["//example:ssl"],
     systems = [
-        "x86_64-linux",   # build @gtest//:gtest --//flag:system=x86_64-linux
-        "aarch64-linux",  # build @gtest//:gtest --//flag:system=aarch64-linux
+        "x86_64-pc-linux-gnu",
+        "aarch64-unknown-linux-gnu",
     ],
 )

@@ -4,8 +4,8 @@ string_flag(
     name = "system",
     build_setting_default = "invalid",
     values = [
-        "x86_64-linux",
-        "aarch64-linux",
+        "aarch64-unknown-linux-gnu",
+        "x86_64-pc-linux-gnu",
         "invalid",
     ],
     visibility = ["//visibility:public"],

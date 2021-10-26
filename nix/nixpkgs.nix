@@ -1,4 +1,8 @@
-{ system ? builtins.currentSystem, ... }:
+{ 
+  crossSystem ? { config = "x86_64-unknown-linux-gnu"; }
+, system ? builtins.currentSystem
+, ...
+}:
 let
   flakes_spec = builtins.fromJSON (builtins.readFile ../flake.lock);
   nixpkgs_spec = flakes_spec.nodes.nixpkgs.locked;
@@ -9,7 +13,7 @@ let
       (builtins.replaceStrings [ "sha256-" ] [ "" ] nixpkgs_spec.narHash);
   };
   nixpkgs = import nixpkgs_src {
-    inherit system;
+    inherit system crossSystem;
     config.allowUnfree = true;
     overlays = [ ];
   };
