@@ -33,8 +33,6 @@ RULES_TWEAG_COMMIT = "a388ab60dea07c3fc182453e89ff1a67c9d3eba6"
 
 http_archive(
     name = "io_tweag_rules_nixpkgs",
-    patch_args = ["-p1"],
-    patches = ["@multi-pkg-example//:01.multi_system_packages.patch"],
     sha256 = "6bedf80d6cb82d3f1876e27f2ff9a2cc814d65f924deba14b49698bb1fb2a7f7",
     strip_prefix = "rules_nixpkgs-%s" % RULES_TWEAG_COMMIT,
     urls = ["https://github.com/tweag/rules_nixpkgs/archive/%s.tar.gz" % RULES_TWEAG_COMMIT],
@@ -51,8 +49,8 @@ load(
     "@io_tweag_rules_nixpkgs//nixpkgs:nixpkgs.bzl",
     "nixpkgs_cc_configure",
     "nixpkgs_local_repository",
-    "nixpkgs_package",
 )
+load("//rules:nixpkgs.bzl", "nixpkgs_package")
 
 nixpkgs_local_repository(
     name = "host_nixpkgs",
